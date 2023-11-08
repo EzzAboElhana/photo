@@ -8,6 +8,27 @@ final class GetUploadSuccessState extends PhotoState {}
 
 final class GetUploadFailedState extends PhotoState {}
 
+//////
+final class GetUploadApiLoadingState extends PhotoState {}
+
+final class GetUploadApiSuccessState extends PhotoState {
+  late List<String> images;
+
+  GetUploadApiSuccessState(String images);
+}
+
+final class GetUploadApiFailedState extends PhotoState {
+  GetUploadApiFailedState(String string);
+}
+
+final class GetImageSuccessState extends PhotoState {
+  ImageModel imageModel;
+  GetImageSuccessState(this.imageModel);
+}
+
+final class GetImageFailedState extends PhotoState {}
+
+
 
 
 

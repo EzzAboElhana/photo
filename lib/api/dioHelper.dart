@@ -15,9 +15,8 @@ class DioHelper {
           receiveTimeout: const Duration(seconds: 10),
           headers: {
             "Authorization":
-                'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NpbHZlci50cmlwdS5uZXQvYXBpL3YxL2RyaXZlci9sb2dpbiIsImlhdCI6MTY5ODg1MTY3NiwiZXhwIjoxNjk4ODU1Mjc2LCJuYmYiOjE2OTg4NTE2NzYsImp0aSI6IlVNR1NHaG1KY0JybUVucDgiLCJzdWIiOiIxMCIsInBydiI6ImEzMTQ3NGQyMzc4NjNlNTU4MjYxYjg1ZWE3M2E3MTI0MTUxOWFlOTMifQ.gDI29NnTcpd1QVl6SiCgMfvywja8K_vUEGu-d03BD-U',
+                'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NpbHZlci50cmlwdS5uZXQvYXBpL3YxL2RyaXZlci9yZWdpc3RlciIsImlhdCI6MTY5OTQ2MjQ3NSwiZXhwIjoxNjk5NDY2MDc1LCJuYmYiOjE2OTk0NjI0NzUsImp0aSI6ImFEYWZlNFdkVWNDcG5nZnIiLCJzdWIiOiIxMyIsInBydiI6ImEzMTQ3NGQyMzc4NjNlNTU4MjYxYjg1ZWE3M2E3MTI0MTUxOWFlOTMifQ.Pqw8RBFTDAzhfXX_WRqNXoW3Txy4i0ovPYljW0YoTAI',
             'Content-Type': 'application/json',
-            //"lang": CacheHelper.getData(key: "lang") == "ar_EG" ? "ar" : "en" ,
             "Accept": "application/json"
           }),
     );
@@ -28,7 +27,6 @@ class DioHelper {
       responseHeader: false,
       compact: false,
     ));
-    // dio!.interceptors.add(ErrorInterceptor());
   }
 
   static Future<Response> postData({
@@ -36,5 +34,12 @@ class DioHelper {
     required dynamic data,
   }) {
     return dio!.post(endPoint, data: data);
+  }
+
+  static Future<Response> getData({
+    required String endPoint,
+    Map<String, dynamic>? queryParameters,
+  }) {
+    return dio!.get(endPoint, queryParameters: queryParameters);
   }
 }

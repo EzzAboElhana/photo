@@ -5,47 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:test_image/api/dioHelper.dart';
 
 class UploadTestWebServices {
-// final formData = FormData.fromMap({
-//   'name': 'dio',
-//   'date': DateTime.now().toIso8601String(),
-//   'file': await MultipartFile.fromFile('./text.txt', filename: 'upload.txt'),
-//   'files': [
-//     await MultipartFile.fromFile('./text1.txt', filename: 'text1.txt'),
-//     await MultipartFile.fromFile('./text2.txt', filename: 'text2.txt'),
-//   ]
-// });
-// final response = await dio.post('/info', data: formData);
-
-  // Future<dynamic> uploadImage(XFile image) async {
-  //   try {
-  //     String filename = image.path.split("/").last;
-  //     final formData = FormData.fromMap({
-  //       'car_license_front':
-  //           await MultipartFile.fromFile(image.path, filename: filename),
-  //       'car_license_back':
-  //           await MultipartFile.fromFile(image.path, filename: filename),
-  //       'car_front':
-  //           await MultipartFile.fromFile(image.path, filename: filename),
-  //       'car_back':
-  //           await MultipartFile.fromFile(image.path, filename: filename),
-  //       'car_right':
-  //           await MultipartFile.fromFile(image.path, filename: filename),
-  //       'car_left':
-  //           await MultipartFile.fromFile(image.path, filename: filename),
-
-  //       // 'files': [
-  //       //   await MultipartFile.fromFile(image.path, filename: filename),
-  //       //   await MultipartFile.fromFile(image.path, filename: filename),
-  //       //   await MultipartFile.fromFile(image.path, filename: filename),
-  //       //   await MultipartFile.fromFile(image.path, filename: filename),
-  //       // ]
-  //     });
-  //     var response = await DioHelper.postData(
-  //         endPoint: "driver/profile/media/uploadProfile", data: formData);
-  //     return response.data;
-  //   } catch (e) {}
-  // }
-
   Future<dynamic> uploadImage({
     required XFile carLicenseFront,
     required XFile carLicenseBack,
@@ -53,6 +12,7 @@ class UploadTestWebServices {
     required XFile carBack,
     required XFile carRight,
     required XFile carLeft,
+    required XFile carInside,
   }) async {
     try {
       String filename = carLicenseFront.path.split("/").last;
@@ -61,6 +21,7 @@ class UploadTestWebServices {
       String filename4 = carBack.path.split("/").last;
       String filename5 = carRight.path.split("/").last;
       String filename6 = carLeft.path.split("/").last;
+      String filename7 = carInside.path.split("/").last;
 
       final formData = FormData.fromMap({
         'car_license_front': await MultipartFile.fromFile(carLicenseFront.path,
@@ -75,7 +36,53 @@ class UploadTestWebServices {
             await MultipartFile.fromFile(carRight.path, filename: filename5),
         'car_left':
             await MultipartFile.fromFile(carLeft.path, filename: filename6),
+        'car_inside':
+            await MultipartFile.fromFile(carInside.path, filename: filename7),
         'type': "car"
+      });
+
+      var response = await DioHelper.postData(
+          endPoint: "driver/profile/media/uploadProfile", data: formData);
+
+      return response.data;
+    } catch (e) {
+      print('حدث خطأ أثناء رفع الصورة: $e');
+      throw e;
+    }
+  }
+
+  Future<dynamic> uploadImagePersonal({
+    required XFile personalAvatar,
+    required XFile idPhotoFront,
+    required XFile idPhotoBack,
+    required XFile criminalRecord,
+    required XFile captainLicenseFront,
+    required XFile captainLicenseBack,
+  }) async {
+    try {
+      String filename = personalAvatar.path.split("/").last;
+      String filename2 = idPhotoFront.path.split("/").last;
+      String filename3 = idPhotoBack.path.split("/").last;
+      String filename4 = criminalRecord.path.split("/").last;
+      String filename5 = captainLicenseFront.path.split("/").last;
+      String filename6 = captainLicenseBack.path.split("/").last;
+
+      final formData = FormData.fromMap({
+        'personal_avatar': await MultipartFile.fromFile(personalAvatar.path,
+            filename: filename),
+        'id_photo_front': await MultipartFile.fromFile(idPhotoFront.path,
+            filename: filename2),
+        'id_photo_back':
+            await MultipartFile.fromFile(idPhotoBack.path, filename: filename3),
+        'criminal_record': await MultipartFile.fromFile(criminalRecord.path,
+            filename: filename4),
+        'captain_license_front': await MultipartFile.fromFile(
+            captainLicenseFront.path,
+            filename: filename5),
+        'captain_license_back': await MultipartFile.fromFile(
+            captainLicenseBack.path,
+            filename: filename6),
+        'type': "personal"
       });
 
       var response = await DioHelper.postData(
@@ -88,5 +95,15 @@ class UploadTestWebServices {
       throw e; // يمكنك إعادة رمي الخطأ للتعامل معه في مكان آخر
     }
   }
-  // final response = dio.post('/info', data: formData);
+
+  Future<dynamic> uploadImageApiPersonal({required String type}) async {
+    try {
+      var response = await DioHelper.postData(
+          endPoint: "driver/profile/media/allMedia", data: {'type': type});
+      return response.data;
+    } catch (e) {
+      print('حدث خطأ أثناء رفع الصورة: $e');
+      throw e;
+    }
+  }
 }
