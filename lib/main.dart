@@ -6,6 +6,8 @@ import 'package:test_image/api/api.dart';
 import 'package:test_image/api/dioHelper.dart';
 import 'package:test_image/cubit/cubit/photo_cubit.dart';
 import 'package:test_image/api/repo.dart';
+import 'package:test_image/screen/forgot%20Password.dart';
+import 'package:test_image/screen/otp.dart';
 import 'package:test_image/start.dart';
 
 void main() async {
@@ -22,6 +24,6 @@ class MyApp extends StatelessWidget {
       BlocProvider<PhotoCubit>(
           create: (BuildContext context) => PhotoCubit(
               UPloadRepo(uploadTestWebServices: UploadTestWebServices()))),
-    ], child: MaterialApp(home: Start())));
+    ], child: MaterialApp(home: ForgotPassword())));
   }
 }

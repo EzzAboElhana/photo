@@ -47,4 +47,32 @@ class UPloadRepo {
         captainLicenseFront: captainLicenseFront,
         captainLicenseBack: captainLicenseBack);
   }
+
+//OTP
+  /////// dynamic علشان معنديش model
+  Future<dynamic> getOtp({
+    required String mobile,
+    // required String password,
+    // required String username,
+    // required String sender,
+    // required String lang
+  }) async {
+    return await uploadTestWebServices.getOtp(
+      mobile: mobile,
+      // username: username,
+      // sender: sender,
+      // lang: lang,
+      // password: password,
+    );
+  }
+
+  Future<dynamic> getcheckOtp({
+    required String otp,
+    required String mobile,
+  }) async {
+    return await uploadTestWebServices.getcheckOtp(
+      otp: otp,
+      mobile: mobile,
+    );
+  }
 }

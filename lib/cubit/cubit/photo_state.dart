@@ -28,7 +28,10 @@ final class GetImageSuccessState extends PhotoState {
 
 final class GetImageFailedState extends PhotoState {}
 
+///OTP
+final class GetOTPSuccessState extends PhotoState {}
 
+final class GetOTPFailedState extends PhotoState {}
 
 
 

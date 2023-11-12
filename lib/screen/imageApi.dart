@@ -1,11 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, file_names
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, file_names, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:test_image/screen/imageGrid.dart';
 import 'package:test_image/personImage.dart';
 
 class ImageApi extends StatelessWidget {
-  ImageApi({Key? key});
+  const ImageApi({Key? key});
 
   @override
   Widget build(BuildContext context) {

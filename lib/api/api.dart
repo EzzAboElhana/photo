@@ -90,9 +90,8 @@ class UploadTestWebServices {
 
       return response.data;
     } catch (e) {
-      // يمكنك التعامل مع الخطأ هنا، مثلاً يمكنك طباعته أو إعادة رميه
       print('حدث خطأ أثناء رفع الصورة: $e');
-      throw e; // يمكنك إعادة رمي الخطأ للتعامل معه في مكان آخر
+      throw e;
     }
   }
 
@@ -104,6 +103,50 @@ class UploadTestWebServices {
     } catch (e) {
       print('حدث خطأ أثناء رفع الصورة: $e');
       throw e;
+    }
+  }
+
+/////
+  Future<dynamic> getOtp({
+    required String mobile,
+  }) async {
+    try {
+      Response response = await DioHelper.postData(endPoint: "otp-send", data: {
+        "username": "mr.hosamsaleh@yahoo.com",
+        "password": "6H]N3X??B6VO",
+        "sender": "EL Trip",
+        "mobile": "2$mobile",
+        "lang": "en"
+      });
+      return response.data;
+    } catch (error) {}
+  }
+
+///////////
+  Future<dynamic> getcheckOtp({
+    required String mobile,
+    required String otp,
+    // bool verify = true,
+  }) async {
+    try {
+      Response response =
+          await DioHelper.postData(endPoint: "otp-check", data: {
+        // "username": "mr.hosamsaleh@yahoo.com",
+        // "password": "6H]N3X??B6VO",
+        // "mobile": "2$mobile",
+        // "otp": otp,
+
+        "username": "mr.hosamsaleh@yahoo.com",
+        "password": "6H]N3X??B6VO",
+        "mobile": "$mobile",
+        "otp": "$otp",
+        // "verify": true
+
+        // "verify": true
+      });
+      return response.data;
+    } catch (error) {
+      // يمكنك إضافة معالجة الخطأ هنا
     }
   }
 }

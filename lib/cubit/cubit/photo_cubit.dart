@@ -274,4 +274,36 @@ class PhotoCubit extends Cubit<PhotoState> {
       emit(GetImageFailedState());
     });
   }
+
+  /////OTP
+
+  void getOtp({
+    required String mobile,
+  }) {
+    uPloadRepo
+        .getOtp(
+      mobile: mobile,
+    )
+        .then((value) {
+      emit(GetOTPSuccessState());
+    }).catchError((error) {
+      emit(GetOTPFailedState());
+    });
+  }
+
+  void getcheckOtp({
+    required String otp,
+    String? mobile,
+  }) {
+    uPloadRepo
+        .getcheckOtp(
+      otp: otp,
+      mobile: mobile!,
+    )
+        .then((value) {
+      emit(GetOTPSuccessState());
+    }).catchError((error) {
+      emit(GetOTPFailedState());
+    });
+  }
 }

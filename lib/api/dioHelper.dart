@@ -9,7 +9,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-          baseUrl: "https://silver.tripu.net/api/v1/",
+          baseUrl: "https://smssmartegypt.com/sms/api/",
           receiveDataWhenStatusError: true,
           connectTimeout: const Duration(seconds: 10),
           receiveTimeout: const Duration(seconds: 10),
