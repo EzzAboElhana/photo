@@ -33,7 +33,20 @@ final class GetOTPSuccessState extends PhotoState {}
 
 final class GetOTPFailedState extends PhotoState {}
 
+//// CheckPhone
+class PhoneRegisteredSuccessState extends PhotoState {}
 
+class PhoneRegisteredFailedState extends PhotoState {}
+
+final class GetRegisterLoadingState extends PhotoState {}
+
+final class GetRegisterSuccessState extends PhotoState {
+  final LoginModel loginModel;
+
+  GetRegisterSuccessState(this.loginModel);
+}
+
+final class GetRegisterFailedState extends PhotoState {}
 
 
 

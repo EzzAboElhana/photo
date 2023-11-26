@@ -1,10 +1,12 @@
-// ignore_for_file: avoid_print, use_rethrow_when_possible, camel_case_types
+// ignore_for_file: avoid_print, use_rethrow_when_possible, camel_case_types, empty_catches
 
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:test_image/api/dioHelper.dart';
 
 class UploadTestWebServices {
+  static Dio? dio;
+
   Future<dynamic> uploadImage({
     required XFile carLicenseFront,
     required XFile carLicenseBack,
@@ -15,7 +17,7 @@ class UploadTestWebServices {
     required XFile carInside,
   }) async {
     try {
-      String filename = carLicenseFront.path.split("/").last;
+      String filenameCarLicenseFront = carLicenseFront.path.split("/").last;
       String filename2 = carLicenseBack.path.split("/").last;
       String filename3 = carFront.path.split("/").last;
       String filename4 = carBack.path.split("/").last;
@@ -25,7 +27,7 @@ class UploadTestWebServices {
 
       final formData = FormData.fromMap({
         'car_license_front': await MultipartFile.fromFile(carLicenseFront.path,
-            filename: filename),
+            filename: filenameCarLicenseFront),
         'car_license_back': await MultipartFile.fromFile(carLicenseBack.path,
             filename: filename2),
         'car_front':
@@ -111,42 +113,119 @@ class UploadTestWebServices {
     required String mobile,
   }) async {
     try {
-      Response response = await DioHelper.postData(endPoint: "otp-send", data: {
-        "username": "mr.hosamsaleh@yahoo.com",
-        "password": "6H]N3X??B6VO",
-        "sender": "EL Trip",
-        "mobile": "2$mobile",
-        "lang": "en"
-      });
+      Response response = await DioHelper.postData(
+          phoneAuth: true,
+          endPoint: "otp-send",
+          data: {
+            "username": "mr.hosamsaleh@yahoo.com",
+            "password": "6H]N3X??B6VO",
+            "sender": "EL Trip",
+            "mobile": "2$mobile",
+            "lang": "en"
+          });
       return response.data;
     } catch (error) {}
   }
 
-///////////
   Future<dynamic> getcheckOtp({
     required String mobile,
     required String otp,
     // bool verify = true,
   }) async {
     try {
+      Response response = await DioHelper.postData(
+          phoneAuth: true,
+          endPoint: "otp-check",
+          data: {
+            "username": "mr.hosamsaleh@yahoo.com",
+            "password": "6H]N3X??B6VO",
+            "mobile": mobile,
+            "otp": otp,
+          });
+      return response.data;
+    } catch (error) {}
+  }
+
+  Future<dynamic> getchangePassword({
+    required String phone,
+    required String password,
+  }) async {
+    try {
       Response response =
-          await DioHelper.postData(endPoint: "otp-check", data: {
-        // "username": "mr.hosamsaleh@yahoo.com",
-        // "password": "6H]N3X??B6VO",
-        // "mobile": "2$mobile",
-        // "otp": otp,
-
-        "username": "mr.hosamsaleh@yahoo.com",
-        "password": "6H]N3X??B6VO",
-        "mobile": "$mobile",
-        "otp": "$otp",
-        // "verify": true
-
-        // "verify": true
+          await DioHelper.postData(endPoint: "driver/restPassword", data: {
+        "phone": phone,
+        "password": password,
       });
       return response.data;
-    } catch (error) {
-      // يمكنك إضافة معالجة الخطأ هنا
+    } catch (error) {}
+  }
+
+  Future<dynamic> getcheckPhone({
+    required String phone,
+  }) async {
+    try {
+      Response response =
+          await DioHelper.postData(endPoint: "driver/checkPhone", data: {
+        "phone": phone,
+      });
+
+      return response.data;
+    } catch (error) {}
+  }
+
+  Future<bool> isPhoneNumberRegistered(String phoneNumber) async {
+    try {
+      // استبدال 'YOUR_API_ENDPOINT' بعنوان النهاية الخاص بك
+      Response response =
+          await DioHelper.postData(endPoint: "driver/checkPhone", data: {
+        "phone": phoneNumber,
+      });
+
+      // تحقق من رمز الاستجابة أو أي بيانات إضافية تُرجعها الخادم
+      if (response.statusCode == 200) {
+        // يشير إلى أن الرقم مسجل
+        return true;
+      } else {
+        // يشير إلى أن الرقم غير مسجل
+        return false;
+      }
+    } catch (e) {
+      // يمكنك إدارة الأخطاء هنا
+      print('Error checking phone registration: $e');
+      throw e; // يمكنك إعادة رمي الخطأ أو التعامل معه بأي شكل من الأشكال
     }
+  }
+
+  Future<Response> checkPhoneRegistration(String phoneNumber) async {
+    try {
+      return await DioHelper.postData(
+        data: {'phone': phoneNumber},
+        endPoint: "driver/checkPhone",
+      );
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<dynamic> getRegisterData({
+    required String phone,
+    required String password,
+    required String name,
+    required String email,
+    required String gender,
+    required String country,
+  }) async {
+    try {
+      Response response =
+          await DioHelper.postData(endPoint: "driver/register", data: {
+        "phone": phone,
+        "password": password,
+        "name": name,
+        "email": email,
+        "gender": gender,
+        "country_id": country
+      });
+      return response.data;
+    } catch (error) {}
   }
 }

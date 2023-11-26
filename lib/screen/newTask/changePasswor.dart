@@ -1,14 +1,17 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable
+// ignore_for_file: prefer_const_constructors, file_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_image/cubit/cubit/photo_cubit.dart';
-import 'package:test_image/screen/otp.dart';
+import 'package:test_image/screen/newTask/test_otp.dart';
 
-class ForgotPassword extends StatelessWidget {
-  var phoneController = TextEditingController();
+// ignore: must_be_immutable
+class Password extends StatelessWidget {
+  final String phone;
 
-  ForgotPassword({super.key});
+  var passwordController = TextEditingController();
+
+  Password({super.key, required this.phone});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +20,7 @@ class ForgotPassword extends StatelessWidget {
         if (state is GetOTPSuccessState) {
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => OTP(
-                      phone: phoneController.text,
-                    )),
+            MaterialPageRoute(builder: (context) => TestOtp()),
           );
         }
       },
@@ -38,7 +38,7 @@ class ForgotPassword extends StatelessWidget {
                 height: 50,
               ),
               Text(
-                'Forgot Password',
+                'New Password',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Text(
@@ -51,23 +51,18 @@ class ForgotPassword extends StatelessWidget {
                 height: 50,
               ),
               TextFormField(
-                controller: phoneController,
+                controller: passwordController,
                 decoration: InputDecoration(
-                  labelText: 'Phone Number',
+                  labelText: 'New Password',
                 ),
               ),
               SizedBox(
                 height: 150,
               ),
-              GestureDetector(
+              InkWell(
                 onTap: () {
-                  PhotoCubit.get(context).getOtp(
-                    mobile: phoneController.text,
-                    // username: 'mr.hosamsaleh@yahoo.com',
-                    // sender: 'EL Trip',
-                    // lang: 'en',
-                    // password: '6H]N3X??B6VO',
-                  );
+                  PhotoCubit.get(context).getchangePassword(
+                      password: passwordController.text, phone: phone);
                 },
                 child: Container(
                   height: 50,

@@ -1,6 +1,11 @@
+// ignore_for_file: use_rethrow_when_possible, avoid_print
+
+import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:test_image/api/api.dart';
 import 'package:test_image/model/image_model.dart';
+import 'package:test_image/model/loginModel.dart';
+import 'package:test_image/model/phone_model.dart';
 
 class UPloadRepo {
   final UploadTestWebServices uploadTestWebServices;
@@ -74,5 +79,57 @@ class UPloadRepo {
       otp: otp,
       mobile: mobile,
     );
+  }
+
+  //////
+  ///
+  Future<dynamic> getchangePassword({
+    required String password,
+    required String phone,
+  }) async {
+    return await uploadTestWebServices.getchangePassword(
+      phone: phone,
+      password: password,
+    );
+  }
+
+  Future<PhoneModel> getcheckPhone({
+    required String phone,
+  }) async {
+    return PhoneModel.fromJson(
+        await uploadTestWebServices.getcheckPhone(phone: phone));
+  }
+
+  Future<bool> isPhoneNumberRegistered(String phoneNumber) async {
+    try {
+      Response response =
+          await uploadTestWebServices.checkPhoneRegistration(phoneNumber);
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Error checking phone registration: $e');
+      throw e;
+    }
+  }
+
+  Future<LoginModel> getRegisterData({
+    required String phone,
+    required String password,
+    required String name,
+    required String email,
+    required String gender,
+    required country,
+  }) async {
+    return LoginModel.fromJson(await uploadTestWebServices.getRegisterData(
+        phone: phone,
+        password: password,
+        name: name,
+        email: email,
+        gender: gender,
+        country: country));
   }
 }

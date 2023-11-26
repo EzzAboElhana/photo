@@ -1,16 +1,30 @@
+// import 'package:flutter/material.dart';
+
+// class OTPPassword extends StatelessWidget {
+//   const OTPPassword({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Placeholder();
+//   }
+// }
+
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:pinput/pinput.dart';
+import 'package:test_image/screen/newTask/changePasswor.dart';
 import 'package:test_image/cubit/cubit/photo_cubit.dart';
-import 'package:test_image/screen/test_otp.dart';
+import 'package:test_image/screen/newTask/register.dart';
 
-class OTP extends StatelessWidget {
+class OTPPassword extends StatelessWidget {
   final String phone;
   var checkController = TextEditingController();
   var otpController = TextEditingController();
 
-  OTP({super.key, required this.phone});
+  OTPPassword({super.key, required this.phone});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +33,17 @@ class OTP extends StatelessWidget {
         if (state is GetOTPSuccessState) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => TestOtp()),
+            MaterialPageRoute(
+                builder: (context) => Password(
+                      phone: phone,
+                    )),
           );
         }
       },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: Text("Welcom"),
+            title: Text("Welcome"),
             backgroundColor: Colors.blueAccent,
           ),
           body: Padding(
@@ -36,15 +53,8 @@ class OTP extends StatelessWidget {
               children: [
                 Gap(50),
                 Text(
-                  'Forgot Password',
+                  'Check the otp',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Gap(50),
-                Text(
-                  'Please enter your phone number so we can send a verify code to reset your password',
-                  style: TextStyle(
-                    fontSize: 10,
-                  ),
                 ),
                 SizedBox(
                   height: 50,
@@ -55,6 +65,7 @@ class OTP extends StatelessWidget {
                     length: 6,
                   ),
                 ),
+                Gap(50),
                 GestureDetector(
                   onTap: () {
                     PhotoCubit.get(context)

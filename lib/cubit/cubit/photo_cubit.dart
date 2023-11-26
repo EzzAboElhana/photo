@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:test_image/api/dioHelper.dart';
 import 'package:test_image/model/image_model.dart';
 import 'package:test_image/api/repo.dart';
+import 'package:test_image/model/loginModel.dart';
 
 part 'photo_state.dart';
 
@@ -304,6 +305,75 @@ class PhotoCubit extends Cubit<PhotoState> {
       emit(GetOTPSuccessState());
     }).catchError((error) {
       emit(GetOTPFailedState());
+    });
+  }
+
+  ////
+  void getchangePassword({
+    required String password,
+    required String phone,
+  }) {
+    uPloadRepo
+        .getchangePassword(password: password, phone: phone)
+        .then((value) {
+      emit(GetOTPSuccessState());
+    }).catchError((error) {
+      emit(GetOTPFailedState());
+    });
+  }
+
+  // void getcheckPhone({
+  //   required String phone,
+  // }) {
+  //   uPloadRepo.getcheckPhone(phone: phone).then((value) {
+  //     print("ADASDASDASDASDASDASDASDSA");
+  //     emit(PhoneRegisteredSuccessState());
+  //   }).catchError((error) {
+  //     print("ADASnnnnnnnnnnnnnnnnnnnnnnDASDASDASDASDASDASDSA");
+
+  //     emit(PhoneRegisteredFailedState());
+  //   });
+  void getcheckPhone({
+    required String phone,
+  }) {
+    uPloadRepo.getcheckPhone(phone: phone).then((phoneModel) {
+      emit(PhoneRegisteredSuccessState());
+    }).catchError((error) {
+      emit(PhoneRegisteredFailedState());
+    });
+  }
+
+  ///,//,/,/,/
+  // void checkPhoneRegistration(String phoneNumber) {
+  //   uPloadRepo.isPhoneNumberRegistered(phoneNumber).then((isRegistered) {
+  //     if (isRegistered) {
+  //       emit(PhoneRegisteredSuccessState());
+  //     } else {
+  //       emit(PhoneRegisteredFailedState());
+  //     }
+  //   }).catchError((error) {});
+  // }
+
+  void getRegisterData(
+      {required String phone,
+      required String password,
+      required String name,
+      required String email,
+      required String gender,
+      required String country}) {
+    uPloadRepo
+        .getRegisterData(
+      phone: phone,
+      password: password,
+      name: name,
+      email: email,
+      gender: gender,
+      country: country,
+    )
+        .then((login) {
+      emit(GetRegisterSuccessState(login));
+    }).catchError((error) {
+      emit(GetRegisterFailedState());
     });
   }
 }

@@ -3,15 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_image/api/api.dart';
+import 'package:test_image/api/cach_Helper.dart';
 import 'package:test_image/api/dioHelper.dart';
 import 'package:test_image/cubit/cubit/photo_cubit.dart';
 import 'package:test_image/api/repo.dart';
-import 'package:test_image/screen/forgot%20Password.dart';
-import 'package:test_image/screen/otp.dart';
-import 'package:test_image/start.dart';
+import 'package:test_image/screen/newTask/first_screen.dart';
+import 'package:test_image/screen/newTask/login_screen.dart';
 
 void main() async {
   DioHelper.init();
+  CacheHelper.init();
 
   runApp(const MyApp());
 }
@@ -24,6 +25,6 @@ class MyApp extends StatelessWidget {
       BlocProvider<PhotoCubit>(
           create: (BuildContext context) => PhotoCubit(
               UPloadRepo(uploadTestWebServices: UploadTestWebServices()))),
-    ], child: MaterialApp(home: ForgotPassword())));
+    ], child: MaterialApp(home: FirstScreen())));
   }
 }
